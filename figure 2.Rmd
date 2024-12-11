@@ -1,0 +1,42 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+### Programs using the R package gstereotot to reproduce Figure 2 in the paper ``Stereographic Projections for Designs on the Sphere'' by Linda Haines
+
+### caveat utilitor!
+
+### Figure 2: R code
+
+
+``` {r}
+rm(list=ls())
+library(gstereotot)
+par(mar=c(2.1, 2.1, 2.1, 2.1))
+
+# read in points of subsets
+xmatcube=as.matrix(read.table("cubeset.txt"))
+xmatoct=as.matrix(read.table("octset.txt")/sqrt(3))
+xmat110=as.matrix(read.table("110set.txt")/sqrt(2))
+
+# CCD
+grstereo(1,2,2,1)
+gplot(xmatcube,1.5,"black",1)
+gplot(xmatoct,1.5,"red",1)
+
+# Box-Behnken
+grstereo(1,2,2,1)
+gplot(xmat110,1.5,"blue",1)
+
+#rotatable 2X110+100
+grstereo(1,2,2,1)
+gplot(xmat110,sqrt(2)*1.5,"blue",1)
+gplot(xmatcube,1.5,"black",1)
+
+# Dette-Grigoriev E-optimal design 
+grstereo(1,2,2,1)
+gplot(xmatoct,sqrt(5/3)*2.5,"red",1)
+gplot(xmatcube,1.5,"black",1)
+```

@@ -1,0 +1,65 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+### Program using the R package gstereotot  to reproduce Figure 3 in the paper "Stereographic Projections for Designs on the Sphere" by Linda Haines
+
+### caveat utilitor!
+
+### Figure 3: R code
+
+``` {r}
+rm(list=ls())
+library(gstereotot)
+#par(mar=c(2.1, 2.1, 2.1, 2.1),mfrow=c(1,2))
+par(mar=c(2.1, 2.1, 2.1, 2.1),mfrow=c(1,1))
+    
+# parameters
+A=12
+a=sqrt(A)
+r1=1
+r2=0.692405
+cx=5
+
+# weights
+wvec=wvvector(A,r2)
+w2=wvec[1]
+w3=wvec[2]
+wint=wvec[3]
+v1=wvec[4]
+v2=wvec[5]
+v3=wvec[6]
+
+# print weights
+wvec
+w2+w3+wint
+v1+v2+v3
+
+# read subsets
+xcube=as.matrix(read.table("cube.txt"))
+xedge=as.matrix(read.table("edges.txt")/sqrt(2))
+xocta=as.matrix(read.table("octa0.txt")/sqrt(3))
+
+# construct internally divided points
+xmat1=cbind(a*xocta[,1],xocta[,2:3])/sqrt(a^2+2)
+xmat2=cbind(xocta[,1],a*xocta[,2],xocta[,3])/sqrt(a^2+2)
+xmat3=cbind(xocta[,1],xocta[,2],a*xocta[,3])/sqrt(a^2+2)
+xmatint=rbind(xmat1,xmat2,xmat3)*sqrt(3)
+
+# plots of points on boundary 
+r=1
+grstereo(1,2,2,r)
+if(w3>0)
+{gplot(xocta,w3*cx,"blue",r)}
+gplot(xedge,w2*cx,"red",r)
+gplot(xmatint,wint*cx,"black",r)
+
+r=0.692405
+if(A < 13)
+{grstereo(r,2,2,1)
+gplot(xcube,v1*cx,"chartreuse3",r)
+gplot(xedge,v2*cx,"red",r)
+gplot(xocta,v3*cx,"blue",r)}
+```

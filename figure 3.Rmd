@@ -1,0 +1,41 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+### Program using the R package gstereotot  to reproduce Figure 3 in the paper "Stereographic Projections for Designs on the Sphere" by Linda Haines
+
+### caveat utilitor!
+
+### Figure 3: R code
+
+``` {r}
+rm(list=ls())
+library(gstereotot)
+par(mar=c(2.1,1,2.1,1))
+
+#D_S design of Gilmour and Trinca 2012
+xmat111=rbind(c(-1,-1,-1),c(-1,-1,1),
+              c(-1,1,-1),c(-1,1,1),
+              c(1,-1,1),c(1,1,-1),
+              c(1,1,1))/sqrt(3)
+al=sqrt(1/2)
+xmat110=rbind(c(0,-al,-al),c(al,0,-al),
+              c(al,-al,0)) 
+xmat100=rbind(c(1,0,0),c(-1,0,0),
+              c(0,1,0),c(0,-1,0),
+              c(0,0,1),c(0,0,-1))
+xmat00=rbind(c(0,0,0),c(0,0,0))
+xmat=as.matrix(rbind(xmat111,xmat110,
+                     xmat100,xmat00))
+
+# plot stereogram of the design
+grstereo(1,2,2,1)
+gplot(xmat[1:16,],2,"black",1)
+
+# rotate stereogram about z through -pi/2
+xmatz=xmat[1:16,]%*%rmatz(-pi/2)
+grstereo(1,2,2,1)
+gplot(xmatz[1:16,],2,"black",1)
+```

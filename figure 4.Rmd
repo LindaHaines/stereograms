@@ -1,0 +1,59 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+### Program using the R package gstereotot  to reproduce Figure 4 in the paper "Stereographic Projections for Designs on the Sphere" by Linda Haines
+
+### caveat utilitor!
+
+### Figure 4: R code
+
+``` {r}
+rm(list=ls())
+library(gstereotot)
+par(mar=c(2.1,1,2.1,1))
+
+# generate all 9 repeat points for base set B 
+a=1/sqrt(3)
+b=1/sqrt(2)
+xmattot=rbind(c(1,0,0),
+              c(a,a,-a),
+              c(a,-a,-a),
+              c(-b,b,0),
+              c(-b,-b,0),
+              c(-b,0,b),
+              c(-b,0,-b),
+              c(0,b,b),
+              c(0,-b,b))
+xmattot=rbind(xmattot,xmattot)
+nr=nrow(xmattot)
+
+# Stereogram of Gilmour and Trinca design (2012) 
+cx=2.5
+grstereo(1,2,2,1)
+xmatb=xmattot[-c(15,6),]
+gplot(xmatb,cx,"black",1)
+# add point which occurs once
+xmis=rbind(xmattot[6,],xmattot[15,])
+gplot(xmis,cx,"red",1)
+
+# Stereogram on cycling the original design with (x1,x2,x3) to (x3,x1,x2) twice
+# axis labels not changed
+for(i in 1:2)
+{xmatb=cbind(xmatb[,3],xmatb[,1],xmatb[,2])
+xmis=cbind(xmis[,3],xmis[,1],xmis[,2])
+grstereo(1,2,2,1)
+gplot(xmatb,cx,"black",1)
+gplot(xmis,cx,"red",1)}
+
+# Stereogram of design not isomorphic to that of Gilmour and Trinca (2012)
+cx=2.5
+grstereo(1,2,2,1)
+xmatb=xmattot[-c(1,10),]
+gplot(xmatb,cx,"black",1)
+# add point which occurs once
+xmis=rbind(xmattot[1,],xmattot[10,])
+gplot(xmis,cx,"red",1)
+```
