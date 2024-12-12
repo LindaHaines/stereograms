@@ -1,0 +1,11 @@
+Package: gstereotot
+Type: Package
+Title: Stereograms
+Version: 1.1.0
+Author: Linda Haines
+Maintainer: Linda Haines <linda.haines@uct.ac.za>
+Description: Plots stereograms for designs
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2

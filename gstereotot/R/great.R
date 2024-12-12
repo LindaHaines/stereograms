@@ -1,0 +1,49 @@
+#' Draws great circles. Calls gccalc
+#'
+#' @param r   Radius for drawing the circle
+#' @param ngc Axes: 0 (none), 1 (main axis ), 2 (main + 110 axes)
+#'
+#'
+greatc=function(r,ngc)
+{
+  if(ngc==1||2)
+  {
+  rc=sqrt(2)
+  n=1000
+  cx=rc*(cos(seq(-pi/4,pi/4,by=pi/n)))-1
+  cy=rc*(sin(seq(-pi/4,pi/4,by=pi/n)))
+  lines(r*cx,r*cy,type="l",lwd=0.25)
+  lines(-r*cx,-r*cy,type="l",lwd=0.25)
+  cx=rc*cos(seq(pi/4,3*pi/4,by=pi/n))
+  cy=rc*sin(seq(pi/4,3*pi/4,by=pi/n))-1
+  lines(r*cx,r*cy,type="l",lwd=0.25)
+  lines(-r*cx,-r*cy,type="l",lwd=0.25)
+  }
+  if(ngc==2)
+  {a=1/sqrt(2)
+  xc=rbind(c(a,a,0),c(a,0,a),c(0,-a,a))
+  bigx=xc[,1]/(1+abs(xc[,3]))
+  bigy=xc[,2]/(1+abs(xc[,3]))
+  xymat=cbind(bigx,bigy)+1
+  #points(bigx,bigy)
+  cr=gccalc(xymat)
+  cmat=c(1,1)
+  rad=cr[3]
+  n=1000
+  da=asin((1-1/sqrt(2))/sqrt(3))
+  cx=rad*cos(seq(pi+da,3*pi/2-da,by=pi/n))+cmat[1]
+  cy=rad*sin(seq(pi+da,3*pi/2-da,by=pi/n))+cmat[2]
+  lines(r*cx,r*cy,type="l",lwd=0.25)
+  cx1=cx
+  cy1=cy
+  cx=-cx1
+  cy=-cy1
+  lines(r*cx,r*cy,type="l",lwd=0.25)
+  cx=-cx1
+  cy=cy1
+  lines(r*cx,r*cy,type="l",lwd=0.25)
+  cx=cx1
+  cy=-cy1
+  lines(r*cx,r*cy,type="l",lwd=0.25)
+  }
+}
